@@ -1,9 +1,20 @@
 import React from 'react';
 import {Link} from 'gatsby';
+import {useIdentityContext} from 'react-netlify-identity-widget';
 
-const Profile = () =>{
+const Profile = ({showModal}) =>{
+    const identity = useIdentityContext();
+    const isLoggedIn = identity && identity.isLoggedIn;
+    console.log(identity);
+    const name = 
+    identity &&
+    identity.user &&
+    identity.user.app_metadata &&
+    identity.user.app_metadata.full_name;
+
     return(
-        <div className="dashboard-header">
+        isLoggedIn&&(
+            <div className="dashboard-header">
              <nav>
                  <Link to="/dashboard/secret" activeClassName="active">
                      Secret Stuff
@@ -12,8 +23,9 @@ const Profile = () =>{
                     See your base
                  </Link>
              </nav>
-             <span>TODO: Show Login Status</span>
+             <span>Logged In as {name}. <button onClick={showModal}>log out</button></span>
         </div>
+        )
     )
 }
 
